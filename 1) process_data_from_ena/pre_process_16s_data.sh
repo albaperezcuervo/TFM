@@ -10,7 +10,7 @@ conda activate qiime2-2023.2
 pip install q2-greengenes2
 
 # Download required sequences
-bash ena-file-PRJNA801673.sh
+bash ena-file-PRJNA801673_16s.sh
 
 # Create manifest.csv using python script
 python 16s_manifest.py
