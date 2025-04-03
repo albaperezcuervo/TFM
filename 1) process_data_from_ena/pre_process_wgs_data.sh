@@ -7,7 +7,7 @@ module load metawrap/1.3
 BASE_DIR="/home/proyectos/imdeaalim/alba"
 cd "$BASE_DIR"
 chmod +x ena-PRJNA798058.sh
-./ena-PRJNA798058.sh
+./ena-PRJNA798058_WGS.sh
 
 ### 2. Quality check of sequences and adapter removal
 mkdir "$BASE_DIR/READ_QC"
