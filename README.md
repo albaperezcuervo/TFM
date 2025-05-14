@@ -1,5 +1,3 @@
-# TFM
-Predicitve tool of AD status based on microbiome data.
 # A Predictive Framework for Alzheimer´s Disease Status Based on Gut microbiome Data and Machine Learning
 These scripts support the analysis of gut microbiome data for the classification of Alzheimer’s disease (AD) status. The workflow begins with data pre-processing to generate .qza artefacts from raw sequencing reads, which are then analysed in R for diversity and taxonomic patterns. Machine learning models (Random Forest, CNN, and MLPNN) are subsequently applied to classify AD status. The code reflects the analytical pipeline used in the study and facilitates reproducibility of the results
 
