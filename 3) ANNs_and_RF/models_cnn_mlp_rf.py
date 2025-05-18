@@ -2,6 +2,7 @@
 
 # Clean session and set random seed between models
 # from tensorflow.keras import backend as K
+# from tensorflow.keras.callbacks import ReduceLROnPlateau
 # import gc
 # K.clear_session()
 # gc.collect()
@@ -176,11 +177,19 @@ best_cnn = build_cnn(
     kernel_size=best_params['model__kernel_size'],
     dropout_rate=best_params['model__dropout_rate']
 )
+lr_scheduler = ReduceLROnPlateau(
+    monitor='val_loss',       # métrica a observar
+    factor=0.5,               # reduce LR a la mitad
+    patience=5,               # espera 5 épocas sin mejora
+    min_lr=1e-6,              # tasa mínima de aprendizaje
+    verbose=1
+)
 history = best_cnn.fit(
     X_train_cnn, y_train,
     batch_size=best_params['batch_size'],
     epochs=100,
     validation_data=(X_test_cnn, y_test),
+    callbacks=[lr_scheduler],
     verbose=1
 )
 
@@ -326,8 +335,8 @@ def create_mlp(learning_rate=0.001):
     model.compile(optimizer=optimizer, loss='binary_crossentropy', metrics=['accuracy', 'recall'])
     return model
 
-mlp_model = KerasClassifier(build_fn=create_mlp, epochs=100, batch_size=10, verbose=0)
-param_grid = {'model__learning_rate': [0.001, 0.01]}
+mlp_model = KerasClassifier(build_fn=create_mlp, epochs=100, verbose=0)
+param_grid = {'model__learning_rate': [0.001, 0.01],'batch_size': [10, 20]}
 scoring = {'accuracy': 'accuracy', 'recall': 'recall'}
 
 # GridSearch with different CV strategies
@@ -340,11 +349,18 @@ for cv_val in [None, 5, 10]:
 # Train final MLP with best params
 best_params = cv_results['cv=None'].best_params_
 best_mlp = create_mlp(learning_rate=best_params['model__learning_rate'])
+early_stopping = EarlyStopping(
+    monitor='val_loss',
+    patience=10,
+    restore_best_weights=True,
+    verbose=1
+)
 history = best_mlp.fit(
     X_train_selected, y_train,
-    batch_size=10,
+    batch_size=best_params['batch_size'],
     epochs=100,
     validation_data=(X_test_selected, y_test),
+    callbacks=[early_stopping],
     verbose=1
 )
 
@@ -450,7 +466,8 @@ param_grid = {
     'n_estimators': [50, 100, 200],
     'max_depth': [None, 10, 20, 30],
     'min_samples_split': [2, 5, 10],
-    'min_samples_leaf': [1, 2, 4]
+    'min_samples_leaf': [1, 2, 4],
+    'max_features': ['sqrt', 'log2']
 }
 
 scoring = {'accuracy': 'accuracy', 'recall': 'recall'}
@@ -468,6 +485,7 @@ best_rf = RandomForestClassifier(
     max_depth=best_params['max_depth'],
     min_samples_split=best_params['min_samples_split'],
     min_samples_leaf=best_params['min_samples_leaf'],
+    max_features=best_params['max_features'],
     random_state=42
 )
 best_rf.fit(X_train_selected, y_train)
