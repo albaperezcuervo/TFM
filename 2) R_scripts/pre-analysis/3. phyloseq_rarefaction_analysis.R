@@ -20,7 +20,7 @@ library(taxizedb)
 library(data.table)
 
 # Load phyloseq object at genus level
-physeq.all.g <- readRDS("physeq_all_tree_Genus.rds")
+physeq.all.g <- readRDS("phyl_div_corrected.rds")
 
 # Calculate and visualize sequencing depth per sample
 readcount <- data.table(as(sample_data(physeq.all.g), "data.frame"),
