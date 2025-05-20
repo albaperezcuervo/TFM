@@ -17,10 +17,6 @@ This directory contains essential input files used throughout the pipeline, incl
 |----------------------------------|-----------------------------------------------------------------------------|
 | `ena-file-PRJNA798058-WGS.sh`   | Shell script to download WGS `.fastq.gz` files from ENA via `wget`.        |
 | `ena-file-PRJNA801673-16s.sh`   | Shell script to download 16S `.fastq.gz` files from ENA via `wget`.        |
-| `16s.gg2.biom.qza`              | BIOM table from 16S reads, generated using the `pre_process_16s_data` script. |
-| `16s.gg2.taxonomy.qza`          | Taxonomic classification of 16S data, also from `pre_process_16s_data`.    |
-| `woltka_gg2_WGS.biom.qza`       | Taxonomic and functional table derived from WGS reads via `pre_process_WGS_data`. |
-| `woltka_gg2_WGS.taxonomy.qza`   | Taxonomic classification table derived from WGS reads via `pre_process_WGS_data`. |
 | `metadata_16s.csv`              | Metadata for 16S samples, including `sampleid`, `diagnosis` (Control or Alzheimer), and `sex` among other clinical and demographic details. |
 | `metadata_wgs.csv`              | Metadata for WGS samples, with `sampleid`, `diagnosis` (Control or Alzheimer), `sex`, and additional study-related information. |
 
